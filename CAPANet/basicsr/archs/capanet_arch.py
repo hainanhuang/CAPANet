@@ -55,6 +55,15 @@ def repeat_each(x: torch.Tensor, factor: int, target_len: int) -> torch.Tensor:
     return repeated[:, :target_len, :]
 
 
+def reduce_each(x: torch.Tensor, factor: int, target_len: int) -> torch.Tensor:
+    if factor == 1 and x.shape[1] == target_len:
+        return x
+    x_pad, _ = pad_to_multiple(x, factor, dim=1)
+    bsz, padded_len, channels = x_pad.shape
+    reduced = x_pad.reshape(bsz, padded_len // factor, factor, channels).mean(dim=2)
+    return reduced[:, :target_len, :]
+
+
 def restore_sorted_tokens(x: torch.Tensor, idx_last: torch.Tensor) -> torch.Tensor:
     out = torch.zeros_like(x)
     return out.scatter(dim=1, index=idx_last.expand_as(x), src=x)
@@ -146,18 +155,47 @@ def segment_pool_labels(labels: torch.Tensor, scores: torch.Tensor, scale: int) 
     return first_positions.argmin(dim=-1)
 
 
+def pad_to_length(x: torch.Tensor, target_len: int, dim: int = 1) -> torch.Tensor:
+    size = x.shape[dim]
+    if size == target_len:
+        return x
+    if size > target_len:
+        return x.narrow(dim, 0, target_len)
+
+    pad_n = target_len - size
+    tail = x.narrow(dim, max(size - pad_n, 0), min(pad_n, size))
+    if tail.shape[dim] < pad_n:
+        repeat_shape = [1] * x.dim()
+        repeat_shape[dim] = math.ceil(pad_n / max(tail.shape[dim], 1))
+        tail = tail.repeat(*repeat_shape).narrow(dim, 0, pad_n)
+    tail = torch.flip(tail, dims=[dim])
+    return torch.cat([x, tail], dim=dim)
+
+
 class DynamicPrototypeRouter(nn.Module):
     """Dynamic semantic prototype router with prototype-query refinement."""
 
-    def __init__(self, dim: int, router_dim: int, num_tokens: int):
+    def __init__(
+        self,
+        dim: int,
+        router_dim: int,
+        num_tokens: int,
+        prototype_mode: str = "dynamic",
+        use_prototype_query_refine: bool = True,
+    ):
         super().__init__()
+        if prototype_mode not in {"dynamic", "fixed"}:
+            raise ValueError(f"Unsupported prototype_mode: {prototype_mode}")
         self.num_tokens = num_tokens
+        self.prototype_mode = prototype_mode
+        self.use_prototype_query_refine = use_prototype_query_refine
         self.embed = nn.Sequential(
             nn.LayerNorm(dim),
             nn.Linear(dim, dim),
             nn.GELU(),
         )
         self.assign = nn.Linear(dim, num_tokens, bias=False)
+        self.fixed_prototypes = nn.Parameter(torch.randn(num_tokens, dim) * 0.02)
         self.prototype_queries = nn.Parameter(torch.randn(num_tokens, dim) * 0.02)
         self.refine_q = nn.Linear(dim, router_dim, bias=False)
         self.refine_k = nn.Linear(dim, router_dim, bias=False)
@@ -174,21 +212,26 @@ class DynamicPrototypeRouter(nn.Module):
         bsz, num_patches, channels = x.shape
         embed = self.embed(x)
 
-        assignment = F.softmax(self.assign(embed), dim=-1)
-        proto_content = torch.einsum("bnm,bnc->bmc", assignment, x)
-        proto_weight = assignment.sum(dim=1, keepdim=False).unsqueeze(-1).clamp_min(1e-6)
-        proto_content = proto_content / proto_weight
-        proto_content = F.normalize(self.prototype_norm(proto_content), dim=-1)
+        if self.prototype_mode == "fixed":
+            prototypes = self.fixed_prototypes.unsqueeze(0).expand(bsz, -1, -1)
+        else:
+            assignment = F.softmax(self.assign(embed), dim=-1)
+            proto_content = torch.einsum("bnm,bnc->bmc", assignment, x)
+            proto_weight = assignment.sum(dim=1, keepdim=False).unsqueeze(-1).clamp_min(1e-6)
+            prototypes = proto_content / proto_weight
 
-        query_seed = proto_content + self.prototype_queries.unsqueeze(0)
-        q_proto = self.refine_q(query_seed)
-        k_tokens = self.refine_k(embed)
-        v_tokens = self.refine_v(x)
-        refine_attn = F.softmax(torch.matmul(q_proto, k_tokens.transpose(-2, -1)) * self.scale, dim=-1)
-        proto_refine = torch.matmul(refine_attn, v_tokens)
+        prototypes = F.normalize(self.prototype_norm(prototypes), dim=-1)
 
-        gamma = torch.sigmoid(self.refine_gate)
-        prototypes = F.normalize(self.prototype_norm(proto_content + gamma * proto_refine), dim=-1)
+        if self.use_prototype_query_refine:
+            query_seed = prototypes + self.prototype_queries.unsqueeze(0)
+            q_proto = self.refine_q(query_seed)
+            k_tokens = self.refine_k(embed)
+            v_tokens = self.refine_v(x)
+            refine_attn = F.softmax(torch.matmul(q_proto, k_tokens.transpose(-2, -1)) * self.scale, dim=-1)
+            proto_refine = torch.matmul(refine_attn, v_tokens)
+
+            gamma = torch.sigmoid(self.refine_gate)
+            prototypes = F.normalize(self.prototype_norm(prototypes + gamma * proto_refine), dim=-1)
 
         token_features = F.normalize(self.token_proj(embed), dim=-1)
         prototype_features = F.normalize(self.prototype_proj(prototypes), dim=-1)
@@ -204,6 +247,48 @@ class DynamicPrototypeRouter(nn.Module):
         sorted_scores = torch.gather(x_scores, dim=1, index=sorted_idx)
         idx_last = sorted_idx.unsqueeze(-1)
         return sorted_x, idx_last, sorted_belong_idx, sorted_scores, prototypes
+
+
+class ContentSortingRouter(nn.Module):
+    """Content sorting router without explicit prototype slots."""
+
+    def __init__(self, dim: int, router_dim: int, num_tokens: int):
+        super().__init__()
+        self.num_tokens = num_tokens
+        self.embed = nn.Sequential(
+            nn.LayerNorm(dim),
+            nn.Linear(dim, dim),
+            nn.GELU(),
+        )
+        self.sort_proj = nn.Linear(dim, router_dim, bias=False)
+        self.score_proj = nn.Linear(router_dim, 1, bias=False)
+        self.prototype_norm = nn.LayerNorm(dim)
+
+    def forward(
+        self, x: torch.Tensor
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        bsz, num_patches, channels = x.shape
+        embed = self.embed(x)
+        sort_features = F.normalize(self.sort_proj(embed), dim=-1)
+        sort_logits = self.score_proj(sort_features).squeeze(-1)
+        sort_confidence = torch.sigmoid(sort_logits)
+
+        sorted_idx = torch.argsort(sort_logits, dim=-1, descending=True)
+        gather_idx = sorted_idx.unsqueeze(-1).expand(bsz, num_patches, channels)
+        sorted_x = torch.gather(x, dim=1, index=gather_idx)
+        sorted_scores = torch.gather(sort_confidence, dim=1, index=sorted_idx)
+
+        bin_size = max(1, math.ceil(num_patches / self.num_tokens))
+        sorted_labels = torch.arange(num_patches, device=x.device).view(1, -1)
+        sorted_labels = torch.div(sorted_labels, bin_size, rounding_mode="floor").clamp(max=self.num_tokens - 1)
+        sorted_labels = sorted_labels.expand(bsz, -1)
+
+        padded_sorted_x = pad_to_length(sorted_x, self.num_tokens * bin_size, dim=1)
+        prototypes = padded_sorted_x.reshape(bsz, self.num_tokens, bin_size, channels).mean(dim=2)
+        prototypes = F.normalize(self.prototype_norm(prototypes), dim=-1)
+
+        idx_last = sorted_idx.unsqueeze(-1)
+        return sorted_x, idx_last, sorted_labels, sorted_scores, prototypes
 
 
 class PrototypeCenterInteraction(nn.Module):
@@ -263,6 +348,7 @@ class ProgressiveFocusedSparseAttention(nn.Module):
         lambda_v: float = 0.25,
         cross_cluster_ratio: float = 0.125,
         eta_max: float = 0.0,
+        use_x_scores_in_focus: bool = True,
     ):
         super().__init__()
         self.heads = heads
@@ -278,6 +364,7 @@ class ProgressiveFocusedSparseAttention(nn.Module):
         self.lambda_v = lambda_v
         self.cross_cluster_ratio = cross_cluster_ratio
         self.eta_max = eta_max
+        self.use_x_scores_in_focus = use_x_scores_in_focus
 
         self.to_q = nn.Linear(dim, qk_dim, bias=False)
         self.to_k = nn.Linear(dim, qk_dim, bias=False)
@@ -340,9 +427,20 @@ class ProgressiveFocusedSparseAttention(nn.Module):
 
         mode_labels = torch.mode(q_labels, dim=-1).values
         purity = (q_labels == mode_labels.unsqueeze(-1)).float().mean(dim=-1)
-        score_var = q_scores.float().var(dim=-1, unbiased=False)
+        if self.use_x_scores_in_focus:
+            score_var = q_scores.float().var(dim=-1, unbiased=False)
+        else:
+            score_var = torch.zeros_like(purity)
         focus = self.r_base + self.lambda_p * purity - self.lambda_v * score_var
-        return focus.clamp(self.r_min, self.r_max)
+        focus_clamped = focus.clamp(self.r_min, self.r_max)
+
+        if getattr(self, '_collect_focus', False):
+            if not hasattr(self, '_purity_list'):
+                self._purity_list, self._ratio_list = [], []
+            self._purity_list.append(purity.flatten().tolist())
+            self._ratio_list.append(focus_clamped.flatten().tolist())
+
+        return focus_clamped
 
     @staticmethod
     def topk_mask(values: torch.Tensor, keep: torch.Tensor, candidate_mask: torch.Tensor) -> torch.Tensor:
@@ -418,6 +516,12 @@ class ProgressiveFocusedSparseAttention(nn.Module):
             out = out_local
 
         out = rearrange(out, "b ng h gs d -> b (ng gs) (h d)")[:, :num_tokens, :]
+
+        if getattr(self, '_vis_hook', False):
+            self._vis_attn_local = attn_local.detach().cpu()
+            self._vis_attn_dense = attn_cur.detach().cpu()
+            self._vis_sparse_mask = final_mask.detach().cpu() if self.use_sparse else None
+
         return self.proj(out), current_attn_state
 
 
@@ -437,12 +541,16 @@ class LowToHighMultiLevelReconstruction(nn.Module):
         fixed_focus_ratio: float = 0.5,
         use_sparse_pfsa: bool = True,
         global_branch_levels: Iterable[str] = ("mf", "hf"),
+        use_x_scores_in_focus: bool = True,
+        lmr_path_mode: str = "low_to_high",
     ):
         super().__init__()
         if sum(level_head_split) != heads:
             raise ValueError(f"level_head_split {level_head_split} must sum to heads={heads}.")
         if len(level_head_split) != 3:
             raise ValueError("level_head_split must contain three entries for hf/mf/lf.")
+        if lmr_path_mode not in {"low_to_high", "parallel", "no_cross_level_injection", "high_to_low"}:
+            raise ValueError(f"Unsupported lmr_path_mode: {lmr_path_mode}")
 
         head_dim = dim // heads
         qk_head_dim = qk_dim // heads
@@ -451,6 +559,7 @@ class LowToHighMultiLevelReconstruction(nn.Module):
         self.qk_dim_splits = {level: self.head_splits[level] * qk_head_dim for level in LEVEL_NAMES}
         self.split_sizes = [self.dim_splits[level] for level in LEVEL_NAMES]
         self.active_levels = [level for level in LEVEL_NAMES if self.dim_splits[level] > 0]
+        self.lmr_path_mode = lmr_path_mode
 
         self.global_levels = set(global_branch_levels)
         self.global_branch = PrototypeCenterInteraction(
@@ -459,6 +568,9 @@ class LowToHighMultiLevelReconstruction(nn.Module):
         self.lf_to_mf_proj = self._build_projection(self.dim_splits["lf"], self.dim_splits["mf"])
         self.mf_to_hf_proj = self._build_projection(self.dim_splits["mf"], self.dim_splits["hf"])
         self.lf_to_hf_proj = self._build_projection(self.dim_splits["lf"], self.dim_splits["hf"])
+        self.hf_to_mf_proj = self._build_projection(self.dim_splits["hf"], self.dim_splits["mf"])
+        self.mf_to_lf_proj = self._build_projection(self.dim_splits["mf"], self.dim_splits["lf"])
+        self.hf_to_lf_proj = self._build_projection(self.dim_splits["hf"], self.dim_splits["lf"])
 
         self.level_attn = nn.ModuleDict()
         for level in self.active_levels:
@@ -475,6 +587,7 @@ class LowToHighMultiLevelReconstruction(nn.Module):
                 focus_mode=focus_mode,
                 fixed_focus_ratio=fixed_focus_ratio,
                 eta_max=eta_max,
+                use_x_scores_in_focus=use_x_scores_in_focus,
             )
 
         self.gamma_1 = nn.Parameter(torch.zeros(1))
@@ -514,44 +627,124 @@ class LowToHighMultiLevelReconstruction(nn.Module):
         outputs: Dict[str, Optional[torch.Tensor]] = {level: None for level in LEVEL_NAMES}
         current_attn_state: Dict[str, Optional[torch.Tensor]] = {level: None for level in LEVEL_NAMES}
 
-        if "lf" in self.active_levels:
-            outputs["lf"], current_attn_state["lf"] = self.level_attn["lf"](
-                level_inputs["lf"],
-                pooled_labels["lf"],
-                pooled_scores["lf"],
-                prev_attn_state.get("lf"),
-                global_kv.get("lf"),
-            )
+        if self.lmr_path_mode == "parallel":
+            for level in ("lf", "mf", "hf"):
+                if level in self.active_levels:
+                    outputs[level], current_attn_state[level] = self.level_attn[level](
+                        level_inputs[level],
+                        pooled_labels[level],
+                        pooled_scores[level],
+                        prev_attn_state.get(level),
+                        global_kv.get(level),
+                    )
+        elif self.lmr_path_mode == "no_cross_level_injection":
+            if "lf" in self.active_levels:
+                outputs["lf"], current_attn_state["lf"] = self.level_attn["lf"](
+                    level_inputs["lf"],
+                    pooled_labels["lf"],
+                    pooled_scores["lf"],
+                    prev_attn_state.get("lf"),
+                    global_kv.get("lf"),
+                )
 
-        if "mf" in self.active_levels:
-            mf_input = level_inputs["mf"]
-            if outputs["lf"] is not None:
-                lf_to_mf = self.lf_to_mf_proj(outputs["lf"]) if self.lf_to_mf_proj is not None else outputs["lf"]
-                mf_input = mf_input + self.gamma_1 * repeat_each(lf_to_mf, factor=2, target_len=mf_input.shape[1])
-            outputs["mf"], current_attn_state["mf"] = self.level_attn["mf"](
-                mf_input,
-                pooled_labels["mf"],
-                pooled_scores["mf"],
-                prev_attn_state.get("mf"),
-                global_kv.get("mf"),
-            )
+            if "mf" in self.active_levels:
+                outputs["mf"], current_attn_state["mf"] = self.level_attn["mf"](
+                    level_inputs["mf"],
+                    pooled_labels["mf"],
+                    pooled_scores["mf"],
+                    prev_attn_state.get("mf"),
+                    global_kv.get("mf"),
+                )
 
-        if "hf" in self.active_levels:
-            hf_input = level_inputs["hf"]
-            if outputs["mf"] is not None:
-                mf_to_hf = self.mf_to_hf_proj(outputs["mf"]) if self.mf_to_hf_proj is not None else outputs["mf"]
-                hf_input = hf_input + self.gamma_2 * repeat_each(mf_to_hf, factor=2, target_len=hf_input.shape[1])
-            elif outputs["lf"] is not None:
-                up_factor = max(1, hf_input.shape[1] // max(outputs["lf"].shape[1], 1))
-                lf_to_hf = self.lf_to_hf_proj(outputs["lf"]) if self.lf_to_hf_proj is not None else outputs["lf"]
-                hf_input = hf_input + self.gamma_2 * repeat_each(lf_to_hf, factor=up_factor, target_len=hf_input.shape[1])
-            outputs["hf"], current_attn_state["hf"] = self.level_attn["hf"](
-                hf_input,
-                pooled_labels["hf"],
-                pooled_scores["hf"],
-                prev_attn_state.get("hf"),
-                global_kv.get("hf"),
-            )
+            if "hf" in self.active_levels:
+                outputs["hf"], current_attn_state["hf"] = self.level_attn["hf"](
+                    level_inputs["hf"],
+                    pooled_labels["hf"],
+                    pooled_scores["hf"],
+                    prev_attn_state.get("hf"),
+                    global_kv.get("hf"),
+                )
+        elif self.lmr_path_mode == "high_to_low":
+            if "hf" in self.active_levels:
+                outputs["hf"], current_attn_state["hf"] = self.level_attn["hf"](
+                    level_inputs["hf"],
+                    pooled_labels["hf"],
+                    pooled_scores["hf"],
+                    prev_attn_state.get("hf"),
+                    global_kv.get("hf"),
+                )
+
+            if "mf" in self.active_levels:
+                mf_input = level_inputs["mf"]
+                if outputs["hf"] is not None:
+                    hf_to_mf = reduce_each(outputs["hf"], factor=2, target_len=mf_input.shape[1])
+                    hf_to_mf = self.hf_to_mf_proj(hf_to_mf) if self.hf_to_mf_proj is not None else hf_to_mf
+                    mf_input = mf_input + self.gamma_1 * hf_to_mf
+                outputs["mf"], current_attn_state["mf"] = self.level_attn["mf"](
+                    mf_input,
+                    pooled_labels["mf"],
+                    pooled_scores["mf"],
+                    prev_attn_state.get("mf"),
+                    global_kv.get("mf"),
+                )
+
+            if "lf" in self.active_levels:
+                lf_input = level_inputs["lf"]
+                if outputs["mf"] is not None:
+                    mf_to_lf = reduce_each(outputs["mf"], factor=2, target_len=lf_input.shape[1])
+                    mf_to_lf = self.mf_to_lf_proj(mf_to_lf) if self.mf_to_lf_proj is not None else mf_to_lf
+                    lf_input = lf_input + self.gamma_2 * mf_to_lf
+                elif outputs["hf"] is not None:
+                    down_factor = max(1, outputs["hf"].shape[1] // max(lf_input.shape[1], 1))
+                    hf_to_lf = reduce_each(outputs["hf"], factor=down_factor, target_len=lf_input.shape[1])
+                    hf_to_lf = self.hf_to_lf_proj(hf_to_lf) if self.hf_to_lf_proj is not None else hf_to_lf
+                    lf_input = lf_input + self.gamma_2 * hf_to_lf
+                outputs["lf"], current_attn_state["lf"] = self.level_attn["lf"](
+                    lf_input,
+                    pooled_labels["lf"],
+                    pooled_scores["lf"],
+                    prev_attn_state.get("lf"),
+                    global_kv.get("lf"),
+                )
+        else:
+            if "lf" in self.active_levels:
+                outputs["lf"], current_attn_state["lf"] = self.level_attn["lf"](
+                    level_inputs["lf"],
+                    pooled_labels["lf"],
+                    pooled_scores["lf"],
+                    prev_attn_state.get("lf"),
+                    global_kv.get("lf"),
+                )
+
+            if "mf" in self.active_levels:
+                mf_input = level_inputs["mf"]
+                if outputs["lf"] is not None:
+                    lf_to_mf = self.lf_to_mf_proj(outputs["lf"]) if self.lf_to_mf_proj is not None else outputs["lf"]
+                    mf_input = mf_input + self.gamma_1 * repeat_each(lf_to_mf, factor=2, target_len=mf_input.shape[1])
+                outputs["mf"], current_attn_state["mf"] = self.level_attn["mf"](
+                    mf_input,
+                    pooled_labels["mf"],
+                    pooled_scores["mf"],
+                    prev_attn_state.get("mf"),
+                    global_kv.get("mf"),
+                )
+
+            if "hf" in self.active_levels:
+                hf_input = level_inputs["hf"]
+                if outputs["mf"] is not None:
+                    mf_to_hf = self.mf_to_hf_proj(outputs["mf"]) if self.mf_to_hf_proj is not None else outputs["mf"]
+                    hf_input = hf_input + self.gamma_2 * repeat_each(mf_to_hf, factor=2, target_len=hf_input.shape[1])
+                elif outputs["lf"] is not None:
+                    up_factor = max(1, hf_input.shape[1] // max(outputs["lf"].shape[1], 1))
+                    lf_to_hf = self.lf_to_hf_proj(outputs["lf"]) if self.lf_to_hf_proj is not None else outputs["lf"]
+                    hf_input = hf_input + self.gamma_2 * repeat_each(lf_to_hf, factor=up_factor, target_len=hf_input.shape[1])
+                outputs["hf"], current_attn_state["hf"] = self.level_attn["hf"](
+                    hf_input,
+                    pooled_labels["hf"],
+                    pooled_scores["hf"],
+                    prev_attn_state.get("hf"),
+                    global_kv.get("hf"),
+                )
 
         fusion_parts = []
         if outputs["hf"] is not None:
@@ -563,6 +756,12 @@ class LowToHighMultiLevelReconstruction(nn.Module):
 
         fused = self.proj(torch.cat(fusion_parts, dim=-1))
         fused = restore_sorted_tokens(fused, idx_last)
+
+        if getattr(self, '_vis_hook', False):
+            self._vis_lf_out = outputs['lf'].detach().cpu() if outputs['lf'] is not None else None
+            self._vis_mf_out = outputs['mf'].detach().cpu() if outputs['mf'] is not None else None
+            self._vis_hf_out = outputs['hf'].detach().cpu() if outputs['hf'] is not None else None
+
         return fused, current_attn_state
 
 
@@ -740,12 +939,23 @@ class CAPABlock(nn.Module):
         use_sparse_pfsa: bool = True,
         global_branch_levels: Iterable[str] = ("mf", "hf"),
         routing_mode: str = "dpr",
+        router_prototype_mode: str = "dynamic",
+        use_prototype_query_refine: bool = True,
+        use_x_scores_in_focus: bool = True,
+        lmr_path_mode: str = "low_to_high",
     ):
         super().__init__()
         self.norm = nn.LayerNorm(dim)
         self.routing_mode = routing_mode
         self.num_tokens = num_tokens
-        self.dpr = DynamicPrototypeRouter(dim, qk_dim, num_tokens)
+        self.dpr = DynamicPrototypeRouter(
+            dim,
+            qk_dim,
+            num_tokens,
+            prototype_mode=router_prototype_mode,
+            use_prototype_query_refine=use_prototype_query_refine,
+        )
+        self.content_sort_router = ContentSortingRouter(dim, qk_dim, num_tokens)
         self.lmr = LowToHighMultiLevelReconstruction(
             dim=dim,
             qk_dim=qk_dim,
@@ -758,6 +968,8 @@ class CAPABlock(nn.Module):
             fixed_focus_ratio=fixed_focus_ratio,
             use_sparse_pfsa=use_sparse_pfsa,
             global_branch_levels=global_branch_levels,
+            use_x_scores_in_focus=use_x_scores_in_focus,
+            lmr_path_mode=lmr_path_mode,
         )
         self.mlp = PreNorm(dim, ConvFFN(dim, mlp_dim))
         self.conv1x1 = nn.Conv2d(dim, dim, 1, bias=False)
@@ -771,8 +983,18 @@ class CAPABlock(nn.Module):
         normed_x = self.norm(x_tokens)
         if self.routing_mode == "identity":
             sorted_x, idx_last, sorted_labels, x_scores, prototypes = identity_routing(normed_x, self.num_tokens)
+        elif self.routing_mode == "content_sort":
+            sorted_x, idx_last, sorted_labels, x_scores, prototypes = self.content_sort_router(normed_x)
         else:
             sorted_x, idx_last, sorted_labels, x_scores, prototypes = self.dpr(normed_x)
+
+        if getattr(self, '_vis_hook', False):
+            self._vis_sorted_labels = sorted_labels.detach().cpu()
+            self._vis_x_scores = x_scores.detach().cpu()
+            self._vis_prototypes = prototypes.detach().cpu()
+            unsort_idx = torch.argsort(idx_last.squeeze(-1), dim=1)
+            self._vis_orig_labels = torch.gather(sorted_labels, 1, unsort_idx)
+
         y, current_attn_state = self.lmr(sorted_x, idx_last, sorted_labels, x_scores, prototypes, prev_attn_state)
         y = rearrange(y, "b (h w) c -> b c h w", h=height).contiguous()
         y = self.conv1x1(y)
@@ -802,6 +1024,10 @@ class CAPANet(nn.Module):
         global_branch_levels: Iterable[str] = ("mf", "hf"),
         attn_state_mode: str = "layered",
         routing_mode: str = "dpr",
+        router_prototype_mode: str = "dynamic",
+        use_prototype_query_refine: bool = True,
+        use_x_scores_in_focus: bool = True,
+        lmr_path_mode: str = "low_to_high",
     ):
         super().__init__()
         self.dim = self.setting["dim"]
@@ -822,6 +1048,10 @@ class CAPANet(nn.Module):
         self.global_branch_levels = tuple(global_branch_levels)
         self.attn_state_mode = attn_state_mode
         self.routing_mode = routing_mode
+        self.router_prototype_mode = router_prototype_mode
+        self.use_prototype_query_refine = use_prototype_query_refine
+        self.use_x_scores_in_focus = use_x_scores_in_focus
+        self.lmr_path_mode = lmr_path_mode
 
         self.first_conv = nn.Conv2d(in_chans, self.dim, 3, 1, 1)
         self.blocks = nn.ModuleList()
@@ -845,6 +1075,10 @@ class CAPANet(nn.Module):
                             use_sparse_pfsa=self.use_sparse_pfsa,
                             global_branch_levels=self.global_branch_levels,
                             routing_mode=self.routing_mode,
+                            router_prototype_mode=self.router_prototype_mode,
+                            use_prototype_query_refine=self.use_prototype_query_refine,
+                            use_x_scores_in_focus=self.use_x_scores_in_focus,
+                            lmr_path_mode=self.lmr_path_mode,
                         ),
                         LRSA(self.dim, self.qk_dim, self.mlp_dim, self.heads),
                     ]

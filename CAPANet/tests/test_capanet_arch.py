@@ -12,6 +12,7 @@ from basicsr.archs.capanet_arch import (  # noqa: E402
     CAPABlock,
     CAPANet,
     CATANet,
+    ContentSortingRouter,
     DynamicPrototypeRouter,
     LowToHighMultiLevelReconstruction,
     PrototypeCenterInteraction,
@@ -41,6 +42,32 @@ class CAPANetModuleTest(unittest.TestCase):
         self.assertEqual(restored.shape, x.shape)
         self.assertTrue(torch.allclose(restored.gather(1, idx_last.expand_as(sorted_x)), sorted_x))
         self.assertTrue(torch.allclose(prototypes.norm(dim=-1), torch.ones_like(scores[:, :8]), atol=1e-4, rtol=1e-4))
+
+    def test_router_ablation_variants_build_and_run(self):
+        torch.manual_seed(0)
+        x = torch.randn(2, 17, 40)
+
+        fixed_router = DynamicPrototypeRouter(
+            dim=40,
+            router_dim=36,
+            num_tokens=8,
+            prototype_mode="fixed",
+            use_prototype_query_refine=False,
+        )
+        sorted_x, idx_last, labels, scores, prototypes = fixed_router(x)
+        self.assertEqual(sorted_x.shape, (2, 17, 40))
+        self.assertEqual(idx_last.shape, (2, 17, 1))
+        self.assertEqual(labels.shape, (2, 17))
+        self.assertEqual(scores.shape, (2, 17))
+        self.assertEqual(prototypes.shape, (2, 8, 40))
+
+        content_sort_router = ContentSortingRouter(dim=40, router_dim=36, num_tokens=8)
+        sorted_x, idx_last, labels, scores, prototypes = content_sort_router(x)
+        self.assertEqual(sorted_x.shape, (2, 17, 40))
+        self.assertEqual(idx_last.shape, (2, 17, 1))
+        self.assertEqual(labels.shape, (2, 17))
+        self.assertEqual(scores.shape, (2, 17))
+        self.assertEqual(prototypes.shape, (2, 8, 40))
 
     def test_segment_pooling_and_label_tie_break_follow_docs(self):
         x = torch.tensor(
@@ -107,6 +134,29 @@ class CAPANetModuleTest(unittest.TestCase):
         self.assertEqual(lmr.lf_to_mf_proj.in_features, 10)
         self.assertEqual(lmr.lf_to_mf_proj.out_features, 10)
 
+    def test_lmr_path_ablation_variants_run(self):
+        torch.manual_seed(0)
+        sorted_x = torch.randn(1, 64, 40)
+        idx_last = torch.arange(64).view(1, 64, 1)
+        labels = torch.randint(0, 8, (1, 64))
+        scores = torch.rand(1, 64)
+        prototypes = torch.randn(1, 8, 40)
+
+        for mode in ("parallel", "no_cross_level_injection", "high_to_low", "low_to_high"):
+            lmr = LowToHighMultiLevelReconstruction(
+                dim=40,
+                qk_dim=36,
+                heads=4,
+                group_size=16,
+                block_index=0,
+                total_blocks=8,
+                level_head_split=(2, 1, 1),
+                lmr_path_mode=mode,
+            )
+            fused, state = lmr(sorted_x, idx_last, labels, scores, prototypes, prev_attn_state=None)
+            self.assertEqual(fused.shape, sorted_x.shape)
+            self.assertEqual(set(state.keys()), {"lf", "mf", "hf"})
+
     def test_block_returns_three_level_attention_state(self):
         torch.manual_seed(0)
         self.assertIs(TAB, CAPABlock)
@@ -143,6 +193,32 @@ class CAPANetModuleTest(unittest.TestCase):
             y = model(x)
 
         self.assertEqual(y.shape, (1, 3, 32, 32))
+
+    def test_capanet_supports_new_ablation_knobs(self):
+        torch.manual_seed(0)
+        configs = [
+            dict(routing_mode="content_sort"),
+            dict(router_prototype_mode="fixed"),
+            dict(use_prototype_query_refine=False),
+            dict(use_x_scores_in_focus=False),
+            dict(lmr_path_mode="parallel"),
+            dict(lmr_path_mode="no_cross_level_injection"),
+            dict(lmr_path_mode="high_to_low"),
+        ]
+
+        x = torch.randn(1, 3, 16, 16)
+        for extra_cfg in configs:
+            model = CAPANet(
+                upscale=2,
+                n_iters=[1] * 8,
+                num_tokens=[8] * 8,
+                group_size=[16] * 8,
+                **extra_cfg,
+            )
+            model.eval()
+            with torch.no_grad():
+                y = model(x)
+            self.assertEqual(y.shape, (1, 3, 32, 32))
 
     def test_legacy_catanet_alias_still_builds(self):
         torch.manual_seed(0)
