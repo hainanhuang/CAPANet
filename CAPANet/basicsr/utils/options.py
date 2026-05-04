@@ -5,11 +5,12 @@ import torch
 import yaml
 from collections import OrderedDict
 from os import path as osp
-import deepspeed
 from basicsr.utils import set_random_seed
 from basicsr.utils.dist_util import get_dist_info, init_dist, master_only,init_dist_deepspeed
 
 enable_deepspeed = os.getenv('ENABLE_DEEPSPEED', 'false').lower() in ['true', '1']
+if enable_deepspeed:
+    import deepspeed
 
 def ordered_yaml():
     """Support OrderedDict for yaml.
