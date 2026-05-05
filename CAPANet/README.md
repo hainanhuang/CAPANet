@@ -70,6 +70,27 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --standalone --nnodes=1 --nproc_per_node=4
 CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --standalone --nnodes=1 --nproc_per_node=4 basicsr/train.py -opt options/train/train_CAPANet_x4_finetune.yml --launcher pytorch
 ```
 
+### Single-GPU Notes
+
+Two supported ways to run on a single GPU:
+
+1) Single-process (non-distributed). Do NOT pass `--launcher pytorch`:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python3 basicsr/train.py -opt options/train/train_CAPANet_x2_scratch.yml
+```
+
+2) `torchrun` with 1 process (distributed world size = 1):
+
+```bash
+CUDA_VISIBLE_DEVICES=0 torchrun --standalone --nnodes=1 --nproc_per_node=1 \
+  basicsr/train.py -opt options/train/train_CAPANet_x2_scratch.yml --launcher pytorch
+```
+
+Important: the train YAMLs use `num_gpu: auto`. If you start in single-process mode and multiple GPUs are visible,
+it may wrap the model with `DataParallel` (not true single-GPU). Use `CUDA_VISIBLE_DEVICES=0` or set `num_gpu: 1`
+in your YAML to enforce single-GPU.
+
 
 
 
