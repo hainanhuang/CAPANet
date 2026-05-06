@@ -148,7 +148,7 @@
         <mxCell id="dot8" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#5f5f5f;strokeColor=none;" vertex="1">
           <mxGeometry height="10" width="10" x="1153" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="method8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#bdbdbd;strokeWidth=1.6;align=center;verticalAlign=middle;fontSize=17;fontColor=#111111;fontFamily=Microsoft YaHei;" value="CATANet / SPCT&lt;br&gt;AutoLUT / IM-LUT&lt;br&gt;DiT4SR / DTWSR&lt;div&gt;High-Frequency Mamba&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="method8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#bdbdbd;strokeWidth=1.6;align=center;verticalAlign=middle;fontSize=17;fontColor=#111111;fontFamily=Microsoft YaHei;" value="CATANet / SPCT&lt;br&gt;AutoLUT / IM-LUT&lt;br&gt;DiT4SR / DTWSR&lt;div&gt;HSNet&lt;br&gt;&lt;div&gt;High-Frequency Mamba&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="132" width="197" x="1060" y="60" as="geometry" />
         </mxCell>
         <mxCell id="year8" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontColor=#555555;fontFamily=Microsoft YaHei;" value="2025" vertex="1">
