@@ -4,6 +4,7 @@ model_type: CAPANetModel
 scale: 4
 num_gpu: auto
 manual_seed: 3407
+find_unused_parameters: true
 # dataset and data loader settings
 datasets:
   train:
