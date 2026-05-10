@@ -1,0 +1,109 @@
+<mxfile host="Electron" agent="GPT-5.4">
+  <diagram name="图2c-轻量化与高效推理研究现状骨架图" id="0">
+    <mxGraphModel dx="1677" dy="1117" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1120" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d7dde5;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="360" width="560" x="565" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf7ea;strokeColor=#7db56f;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="64" width="560" x="565" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=22;fontStyle=1;fontColor=#1f2937;" value="轻量结构设计优化" vertex="1">
+          <mxGeometry height="28" width="380" x="655" y="288" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#2f6f47;" value="研究动因" vertex="1">
+          <mxGeometry height="22" width="90" x="595" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fbf7;strokeColor=#cfe7d1;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#2e4b33;" value="仅通过减少层数或通道数虽然能降低复杂度，&lt;div&gt;但容易带来表达能力下降，因此研究开始转向&lt;/div&gt;&lt;div&gt;更精细的预算重分配与高效模块设计。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="595" y="376" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#2f6f47;" value="核心特点" vertex="1">
+          <mxGeometry height="22" width="90" x="595" y="456" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ee;strokeColor=#9fd0a5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#1f3b29;" value="预算重分配；高效模块设计；扩大有效感受野；&lt;div&gt;提升单位 FLOPs 下的信息组织与交互效率。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="595" y="482" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d7dde5;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="360" width="560" x="1155" y="272" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2e6;strokeColor=#d79b55;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="64" width="560" x="1155" y="272" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=22;fontStyle=1;fontColor=#1f2937;" value="动态计算与自适应分配" vertex="1">
+          <mxGeometry height="28" width="400" x="1235" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="33" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#9a3412;" value="研究动因" vertex="1">
+          <mxGeometry height="22" width="90" x="1185" y="352" as="geometry" />
+        </mxCell>
+        <mxCell id="34" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffaf4;strokeColor=#f0d1ad;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#6b3d14;" value="静态统一计算难以兼顾平坦区、边缘区和复杂纹理区，&lt;div&gt;因此研究开始考虑依据输入内容动态分配计算资源。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="1185" y="378" as="geometry" />
+        </mxCell>
+        <mxCell id="35" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#9a3412;" value="核心特点" vertex="1">
+          <mxGeometry height="22" width="90" x="1185" y="458" as="geometry" />
+        </mxCell>
+        <mxCell id="36" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff6ee;strokeColor=#efc08e;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#6b3d14;" value="输入相关计算；区域差异化路径；内容感知调度；&lt;div&gt;将“轻量化”推进为动态算力分配问题。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="1185" y="484" as="geometry" />
+        </mxCell>
+        <mxCell id="37" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#4b5563;" value="代表方法与作用" vertex="1">
+          <mxGeometry height="22" width="120" x="740" y="713" as="geometry" />
+        </mxCell>
+        <mxCell id="39" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#92501a;" value="阶段意义：使轻量级模型从“固定复杂度”走向“输入相关的动态复杂度”。" vertex="1">
+          <mxGeometry height="22" width="480" x="1195" y="578" as="geometry" />
+        </mxCell>
+        <mxCell id="40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d7dde5;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="360" width="560" x="560" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3ecff;strokeColor=#9b7bd1;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="64" width="560" x="560" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="42" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=22;fontStyle=1;fontColor=#1f2937;" value="训练策略与知识迁移" vertex="1">
+          <mxGeometry height="28" width="400" x="640" y="688" as="geometry" />
+        </mxCell>
+        <mxCell id="43" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#6d4ea2;" value="研究动因" vertex="1">
+          <mxGeometry height="22" width="90" x="590" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fbf8ff;strokeColor=#dfd1f5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#4c3278;" value="轻量模型容量有限，仅靠结构缩减往往难以保留大模型中的&lt;div&gt;结构与纹理表征能力，因此需要借助训练阶段的知识迁移。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="590" y="776" as="geometry" />
+        </mxCell>
+        <mxCell id="45" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#6d4ea2;" value="核心特点" vertex="1">
+          <mxGeometry height="22" width="90" x="590" y="856" as="geometry" />
+        </mxCell>
+        <mxCell id="46" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f6f0ff;strokeColor=#c8b0ef;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#4c3278;" value="多教师知识蒸馏；互补知识迁移；结构与纹理共同传递；&lt;div&gt;提升小模型的综合表达上限。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="590" y="882" as="geometry" />
+        </mxCell>
+        <mxCell id="49" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#654894;" value="阶段意义：把轻量化从结构问题扩展到训练阶段的能力补偿与知识增强。" vertex="1">
+          <mxGeometry height="22" width="480" x="600" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d7dde5;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="360" width="560" x="1160" y="672" as="geometry" />
+        </mxCell>
+        <mxCell id="51" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf2ff;strokeColor=#7da2d6;strokeWidth=1.8;arcSize=14;" value="" vertex="1">
+          <mxGeometry height="64" width="560" x="1160" y="672" as="geometry" />
+        </mxCell>
+        <mxCell id="52" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=22;fontStyle=1;fontColor=#1f2937;" value="数值压缩与算子替换" vertex="1">
+          <mxGeometry height="28" width="400" x="1240" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="53" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#2563eb;" value="研究动因" vertex="1">
+          <mxGeometry height="22" width="90" x="1190" y="752" as="geometry" />
+        </mxCell>
+        <mxCell id="54" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f6f9ff;strokeColor=#d1def2;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#27466d;" value="轻量模型在真实部署时仍受到存储、位宽和硬件算子支持限制，&lt;div&gt;因此研究进一步拓展到查表近似、量化压缩与算子替换。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="1190" y="778" as="geometry" />
+        </mxCell>
+        <mxCell id="55" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#2563eb;" value="核心特点" vertex="1">
+          <mxGeometry height="22" width="90" x="1190" y="858" as="geometry" />
+        </mxCell>
+        <mxCell id="56" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef5ff;strokeColor=#b9cfee;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=16;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#27466d;" value="查表近似；量化压缩；自适应比特映射；&lt;div&gt;算子级替换与部署友好化优化。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="500" x="1190" y="884" as="geometry" />
+        </mxCell>
+        <mxCell id="59" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#305783;" value="阶段意义：推动轻量化从模型设计延伸到训练、量化和真实部署全流程。" vertex="1">
+          <mxGeometry height="22" width="480" x="1200" y="984" as="geometry" />
+        </mxCell>
+        <mxCell id="WmJC3wHzowCF5EcEveuz-71" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#3f6a47;" value="阶段意义：强调在有限预算下重新组织信息流，而不是仅做被动压缩。" vertex="1">
+          <mxGeometry height="22" width="470" x="610" y="583" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

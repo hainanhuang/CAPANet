@@ -1,0 +1,148 @@
+<mxfile host="Electron" agent="GPT-5.4">
+  <diagram name="图2b-超分辨率基础模型演进图" id="0">
+    <mxGraphModel dx="1685" dy="1475" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="R2DCtIy4aMr--St3nzan-82" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6d6d6;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="470" width="360" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf2ff;strokeColor=#7da2d6;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="70" width="360" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=21;fontStyle=1;fontColor=#1f2937;" value="早期模型驱动" vertex="1">
+          <mxGeometry height="28" width="320" x="90" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=13;fontStyle=1;fontColor=#7da2d6;" value="先验与优化" vertex="1">
+          <mxGeometry height="20" width="140" x="180" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#4b5563;" value="代表方法" vertex="1">
+          <mxGeometry height="22" width="90" x="92" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#e5e7eb;strokeWidth=1.2;align=center;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#111827;" value="插值重建 / 平滑先验 / 稀疏字典学习" vertex="1">
+          <mxGeometry height="66" width="320" x="90" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#2f6f47;" value="优点" vertex="1">
+          <mxGeometry height="22" width="60" x="92" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ee;strokeColor=#9fd0a5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1f3b29;" value="理论可解释性强&lt;br&gt;边缘保持较好&lt;br&gt;退化建模较明确" vertex="1">
+          <mxGeometry height="70" width="320" x="90" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#9a3412;" value="缺点" vertex="1">
+          <mxGeometry height="22" width="60" x="92" y="486" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f0;strokeColor=#efb7aa;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#5f2310;" value="依赖人工先验与优化求解&lt;br&gt;计算代价高&lt;br&gt;难以表达复杂真实纹理" vertex="1">
+          <mxGeometry height="86" width="320" x="90" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="R2DCtIy4aMr--St3nzan-83" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6d6d6;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="470" width="360" x="500" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf7ea;strokeColor=#7db56f;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="70" width="360" x="500" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=21;fontStyle=1;fontColor=#1f2937;" value="深度卷积网络阶段" vertex="1">
+          <mxGeometry height="28" width="320" x="520" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=13;fontStyle=1;fontColor=#7db56f;" value="局部映射学习" vertex="1">
+          <mxGeometry height="20" width="140" x="610" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#4b5563;" value="代表方法" vertex="1">
+          <mxGeometry height="22" width="90" x="522" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#e5e7eb;strokeWidth=1.2;align=center;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#111827;" value="SRCNN / EDSR / RCAN" vertex="1">
+          <mxGeometry height="66" width="320" x="520" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#2f6f47;" value="优点" vertex="1">
+          <mxGeometry height="22" width="60" x="522" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ee;strokeColor=#9fd0a5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1f3b29;" value="首次实现端到端学习&lt;br&gt;映射精度显著提升&lt;br&gt;局部纹理捕获能力强" vertex="1">
+          <mxGeometry height="70" width="320" x="520" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="28" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#9a3412;" value="缺点" vertex="1">
+          <mxGeometry height="22" width="60" x="522" y="486" as="geometry" />
+        </mxCell>
+        <mxCell id="29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f0;strokeColor=#efb7aa;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#5f2310;" value="感受野受限&lt;br&gt;难以显式建模远距离重复纹理&lt;br&gt;复杂结构依赖表达不足" vertex="1">
+          <mxGeometry height="86" width="320" x="520" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="R2DCtIy4aMr--St3nzan-84" edge="1" parent="1" source="30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6d6d6;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="470" width="360" x="930" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3ecff;strokeColor=#9b7bd1;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="70" width="360" x="930" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=21;fontStyle=1;fontColor=#1f2937;" value="视觉 Transformer 阶段" vertex="1">
+          <mxGeometry height="28" width="320" x="950" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="33" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=13;fontStyle=1;fontColor=#9b7bd1;" value="全局关系建模" vertex="1">
+          <mxGeometry height="20" width="140" x="1040" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="34" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#4b5563;" value="代表方法" vertex="1">
+          <mxGeometry height="22" width="90" x="952" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="35" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#e5e7eb;strokeWidth=1.2;align=center;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#111827;" value="SwinIR / HAT / DAT" vertex="1">
+          <mxGeometry height="66" width="320" x="950" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="36" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#2f6f47;" value="优点" vertex="1">
+          <mxGeometry height="22" width="60" x="952" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ee;strokeColor=#9fd0a5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1f3b29;" value="自注意力突破局部卷积限制&lt;br&gt;长程依赖表达显著增强&lt;br&gt;跨区域信息建模更充分" vertex="1">
+          <mxGeometry height="70" width="320" x="950" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="38" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#9a3412;" value="缺点" vertex="1">
+          <mxGeometry height="22" width="60" x="952" y="486" as="geometry" />
+        </mxCell>
+        <mxCell id="39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f0;strokeColor=#efb7aa;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#5f2310;" value="窗口划分易造成边界割裂&lt;br&gt;稠密交互计算复杂度高&lt;br&gt;显存开销较大" vertex="1">
+          <mxGeometry height="86" width="320" x="950" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6d6d6;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="470" width="360" x="1360" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2e6;strokeColor=#d79b55;strokeWidth=1.8;arcSize=12;" value="" vertex="1">
+          <mxGeometry height="70" width="360" x="1360" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="42" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=21;fontStyle=1;fontColor=#1f2937;" value="混合与演进趋势" vertex="1">
+          <mxGeometry height="28" width="320" x="1380" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="43" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=13;fontStyle=1;fontColor=#d79b55;" value="多算子协同" vertex="1">
+          <mxGeometry height="20" width="140" x="1470" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="44" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#4b5563;" value="代表方法" vertex="1">
+          <mxGeometry height="22" width="90" x="1382" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#e5e7eb;strokeWidth=1.2;align=center;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#111827;" value="CFSR / HiT-SR" vertex="1">
+          <mxGeometry height="66" width="320" x="1380" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="46" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#2f6f47;" value="优点" vertex="1">
+          <mxGeometry height="22" width="60" x="1382" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="47" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ee;strokeColor=#9fd0a5;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1f3b29;" value="卷积与注意力协同设计&lt;br&gt;兼顾全局关系与局部归纳偏置&lt;br&gt;更强调精度-效率平衡" vertex="1">
+          <mxGeometry height="70" width="320" x="1380" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="48" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=Microsoft YaHei;fontSize=14;fontStyle=1;fontColor=#9a3412;" value="缺点" vertex="1">
+          <mxGeometry height="22" width="60" x="1382" y="486" as="geometry" />
+        </mxCell>
+        <mxCell id="49" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f0;strokeColor=#efb7aa;strokeWidth=1.2;align=left;verticalAlign=middle;spacingLeft=14;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#5f2310;" value="结构设计更复杂&lt;br&gt;高精度与端侧部署效率矛盾加剧&lt;br&gt;系统优化难度上升" vertex="1">
+          <mxGeometry height="86" width="320" x="1380" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="74" parent="1" style="shape=flexArrow;whiteSpace=wrap;html=1;fillColor=#cbd5e1;strokeColor=#94a3b8;strokeWidth=1.2;direction=east;" value="" vertex="1">
+          <mxGeometry height="48" width="34" x="555" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="76" parent="1" style="shape=flexArrow;whiteSpace=wrap;html=1;fillColor=#cbd5e1;strokeColor=#94a3b8;strokeWidth=1.2;direction=east;" value="" vertex="1">
+          <mxGeometry height="48" width="34" x="895" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="78" parent="1" style="shape=flexArrow;whiteSpace=wrap;html=1;fillColor=#cbd5e1;strokeColor=#94a3b8;strokeWidth=1.2;direction=east;" value="" vertex="1">
+          <mxGeometry height="48" width="34" x="1245" y="705" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

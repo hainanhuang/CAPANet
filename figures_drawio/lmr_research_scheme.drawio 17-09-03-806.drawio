@@ -1,0 +1,115 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram name="LMR Progressive Reconstruction Scheme" id="lmr_scheme">
+    <mxGraphModel dx="1237" dy="670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="in_node" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=14;fontColor=#111111;align=center;verticalAlign=middle;" value="&lt;span style=&quot;font-size: 13px;&quot;&gt;DPR 排序序列&lt;/span&gt;&lt;br style=&quot;font-size: 13px;&quot;&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;(X_sorted, scores)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="70" width="110" x="40" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="split_node" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDF2E8;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="异构头部分配&#xa;Head Split&#xa;[2 : 1 : 1]" vertex="1">
+          <mxGeometry height="100" width="130" x="190" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="hf_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD6E6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="HF 分支&#xa;N tokens" vertex="1">
+          <mxGeometry height="60" width="120" x="380" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="hf_attn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD6E6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="HF 细节建模&#xa;(PFSA / Attn)" vertex="1">
+          <mxGeometry height="60" width="130" x="720" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD7A8;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="MF 分支&lt;br&gt;tokens" vertex="1">
+          <mxGeometry height="60" width="120" x="380" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_pool" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD7A8;strokeColor=#111111;strokeWidth=1.4;fontSize=12;fontColor=#111111;align=center;verticalAlign=middle;" value="Segment Pooling&#xa;(2x, 加权)" vertex="1">
+          <mxGeometry height="60" width="120" x="540" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_attn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD7A8;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="MF 边界建模&#xa;(PFSA / Attn)" vertex="1">
+          <mxGeometry height="60" width="130" x="720" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="lf_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9EEF8;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="LF 分支&#xa;N tokens" vertex="1">
+          <mxGeometry height="60" width="120" x="380" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="lf_pool" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9EEF8;strokeColor=#111111;strokeWidth=1.4;fontSize=12;fontColor=#111111;align=center;verticalAlign=middle;" value="Segment Pooling&#xa;(4x, 加权)" vertex="1">
+          <mxGeometry height="60" width="120" x="540" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="lf_attn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9EEF8;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="LF 结构建模&#xa;(PFSA / Attn)" vertex="1">
+          <mxGeometry height="60" width="130" x="720" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="lf_unpool" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9EEF8;strokeColor=#111111;strokeWidth=1.2;fontSize=11;fontColor=#111111;align=center;verticalAlign=middle;dashed=1;arcSize=50;" value="Unpool (2x)" vertex="1">
+          <mxGeometry height="35" width="90" x="740" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_unpool" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD7A8;strokeColor=#111111;strokeWidth=1.2;fontSize=11;fontColor=#111111;align=center;verticalAlign=middle;dashed=1;" value="Unpool (2x)" vertex="1">
+          <mxGeometry height="35" width="90" x="740" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="gate_lf_mf" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#DAE8FC;strokeColor=#111111;strokeWidth=1.2;fontSize=12;fontColor=#111111;" value="γ₁" vertex="1">
+          <mxGeometry height="30" width="30" x="770" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="gate_mf_hf" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#DAE8FC;strokeColor=#111111;strokeWidth=1.2;fontSize=12;fontColor=#111111;" value="γ₂" vertex="1">
+          <mxGeometry height="30" width="30" x="770" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="Concat &amp; Proj&#xa;多级特征融合" vertex="1">
+          <mxGeometry height="100" width="130" x="940" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="out_node" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=14;fontColor=#111111;align=center;verticalAlign=middle;" value="Y_level" vertex="1">
+          <mxGeometry height="50" width="80" x="1110" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="e_in_split" edge="1" parent="1" source="in_node" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="split_node" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_split_hf" edge="1" parent="1" source="split_node" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.25;entryX=0;entryY=0.5;" target="hf_in" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_split_mf" edge="1" parent="1" source="split_node" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="mf_in" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_split_lf" edge="1" parent="1" source="split_node" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.75;entryX=0;entryY=0.5;" target="lf_in" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_lf_pool" edge="1" parent="1" source="lf_in" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="lf_pool" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pool_lfattn" edge="1" parent="1" source="lf_pool" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="lf_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mf_pool" edge="1" parent="1" source="mf_in" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="mf_pool" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pool_mfattn" edge="1" parent="1" source="mf_pool" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="mf_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_hf_attn" edge="1" parent="1" source="hf_in" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="hf_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_lf_up" edge="1" parent="1" source="lf_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="lf_unpool" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_up_gate1" edge="1" parent="1" source="lf_unpool" style="rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="gate_lf_mf" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_gate1_mf" edge="1" parent="1" source="gate_lf_mf" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="mf_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mf_up" edge="1" parent="1" source="mf_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="mf_unpool" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_up_gate2" edge="1" parent="1" source="mf_unpool" style="rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="gate_mf_hf" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_gate2_hf" edge="1" parent="1" source="gate_mf_hf" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="hf_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_hf_fusion" edge="1" parent="1" source="hf_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" target="fusion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mf_fusion" edge="1" parent="1" source="mf_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="fusion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_lf_fusion" edge="1" parent="1" source="lf_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" target="fusion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_fusion_out" edge="1" parent="1" source="fusion" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="out_node" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

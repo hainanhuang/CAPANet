@@ -1,0 +1,85 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram name="PFSA Prior and Global Synergy Scheme" id="pfsa_synergy_scheme">
+    <mxGraphModel dx="1237" dy="670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;align=left;verticalAlign=top;fontSize=14;fontColor=#333333;spacingTop=8;spacingLeft=10;" value="主分支：局部稀疏交互 (渐进聚焦与动态调节)" vertex="1">
+          <mxGeometry height="310" width="690" x="180" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;align=left;verticalAlign=top;fontSize=14;fontColor=#333333;spacingTop=8;spacingLeft=10;" value="弱分支：全局中心参照" vertex="1">
+          <mxGeometry height="150" width="560" x="180" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="in_prior" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;dashed=1;dashPattern=6 4;" value="前序注意力先验&#xa;A_{t-1}^s" vertex="1">
+          <mxGeometry height="60" width="130" x="20" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="in_cur" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="当前内容相关性&#xa;A_{cur}" vertex="1">
+          <mxGeometry height="60" width="130" x="20" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="in_meta" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="DPR 路由元信息&#xa;(Labels, Scores)" vertex="1">
+          <mxGeometry height="64" width="130" x="20" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="in_proto" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="动态语义原型&#xa;P_{global}" vertex="1">
+          <mxGeometry height="60" width="130" x="20" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="op_fusion" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="注意力状态融合&#xa;β·A_{prev} + (1-β)·A_{cur}" vertex="1">
+          <mxGeometry height="65" width="180" x="220" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="op_focal" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="内容感知焦点率计算&#xa;r = f(Purity, Variance)" vertex="1">
+          <mxGeometry height="65" width="180" x="220" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="op_mask" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2C6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="动态稀疏掩码生成&#xa;Top-K(A_hat, r)" vertex="1">
+          <mxGeometry height="70" width="160" x="460" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="op_local" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2D6F6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="局部稀疏注意力&#xa;Local Sparse Attn" vertex="1">
+          <mxGeometry height="70" width="150" x="690" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="op_global_kv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2D6F6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="全局键值投影&#xa;Linear K_g / V_g" vertex="1">
+          <mxGeometry height="70" width="150" x="220" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="op_global_attn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2C6;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="全局交叉注意力&#xa;Global Center Ref" vertex="1">
+          <mxGeometry height="70" width="160" x="460" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="op_gate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#111111;strokeWidth=1.4;fontSize=13;fontColor=#111111;align=center;verticalAlign=middle;" value="尺度相关门控融合&#xa;Y_local + η·Y_global" vertex="1">
+          <mxGeometry height="54" width="130" x="860" y="346" as="geometry" />
+        </mxCell>
+        <mxCell id="out_y" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#111111;strokeWidth=1.4;fontSize=14;fontColor=#111111;fontStyle=1;align=center;verticalAlign=middle;" value="协同交互输出&#xa;Y_out" vertex="1">
+          <mxGeometry height="58" width="120" x="1030" y="344" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="in_prior" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" target="op_fusion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="in_cur" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" target="op_fusion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="in_meta" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="op_focal" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="op_fusion" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="op_mask" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="op_focal" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" target="op_mask" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="op_mask" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="op_local" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="in_proto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="op_global_kv" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="op_global_kv" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="op_global_attn" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="op_local" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="op_gate" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="op_global_attn" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" target="op_gate" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="op_gate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="out_y" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

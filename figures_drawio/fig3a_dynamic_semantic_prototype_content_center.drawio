@@ -1,0 +1,118 @@
+<mxfile host="Electron" agent="Trae">
+  <diagram name="动态语义原型" id="dynamic_prototype">
+    <mxGraphModel dx="1341" dy="893" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="box_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="输入特征 X&amp;#xa;(空间分散的 Token)" vertex="1">
+          <mxGeometry height="300" width="220" x="50" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="80" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="150" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="200" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="90" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="160" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="t6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="210" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="t7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="70" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="t8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="140" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="t9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="190" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="t10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="120" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="t11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="180" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="gen_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2D6F6;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="自适应生成&amp;#xa;(映射模块)" vertex="1">
+          <mxGeometry height="60" width="110" x="320" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" source="box_in" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="gen_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="proto_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="动态语义原型 P&amp;#xa;(作为内容中心)" vertex="1">
+          <mxGeometry height="300" width="200" x="480" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₁: 重复纹理" vertex="1">
+          <mxGeometry height="45" width="140" x="510" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₂: 显著边缘" vertex="1">
+          <mxGeometry height="45" width="140" x="510" y="277" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₃: 结构模式" vertex="1">
+          <mxGeometry height="45" width="140" x="510" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="gen_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="proto_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assign_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2C6;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="计算相似度与归属置信度" vertex="1">
+          <mxGeometry height="60" width="120" x="730" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="proto_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="assign_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="group_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="Token 归组与内容组织&amp;#xa;(提供稳定的语义参照)" vertex="1">
+          <mxGeometry height="300" width="260" x="900" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₁" vertex="1">
+          <mxGeometry height="40" width="40" x="920" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="c1_t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="970" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="c1_t2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1010" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="c1_t3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1050" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₂" vertex="1">
+          <mxGeometry height="40" width="40" x="920" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="c2_t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="970" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c2_t2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1010" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c2_t3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1050" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="P₃" vertex="1">
+          <mxGeometry height="40" width="40" x="920" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="c3_t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="970" y="355" as="geometry" />
+        </mxCell>
+        <mxCell id="c3_t2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1010" y="355" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="assign_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="group_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="out_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontStyle=1;fontFamily=Microsoft YaHei;" value="增强关键内容&amp;#xa;建模能力" vertex="1">
+          <mxGeometry height="80" width="130" x="1210" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="group_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="out_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

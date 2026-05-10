@@ -1,0 +1,71 @@
+<mxfile host="Electron" agent="Trae">
+  <diagram name="归属置信度与路由元信息" id="routing_meta_info">
+    <mxGraphModel dx="1184" dy="788" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="box_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="输入项" vertex="1">
+          <mxGeometry height="220" width="160" x="40" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="t_token" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="Token 特征 X" vertex="1">
+          <mxGeometry height="50" width="120" x="60" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="t_proto" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="动态语义原型 P" vertex="1">
+          <mxGeometry height="50" width="120" x="60" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="calc_prob" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2D6F6;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="计算关联概率&amp;#xa;(Dot Product / Softmax)" vertex="1">
+          <mxGeometry height="60" width="160" x="260" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_in1" edge="1" parent="1" source="t_token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="calc_prob">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="235" />
+              <mxPoint x="220" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_in2" edge="1" parent="1" source="t_proto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="calc_prob">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="325" />
+              <mxPoint x="220" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conf_quant" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2C6;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="归属置信度量化&amp;#xa;(区分关键与冗余)" vertex="1">
+          <mxGeometry height="60" width="140" x="470" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_prob_conf" edge="1" parent="1" source="calc_prob" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="conf_quant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="路由元信息&amp;#xa;(结构化先验打包)" vertex="1">
+          <mxGeometry height="240" width="220" x="670" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD8C2;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="排序索引 (Index)" vertex="1">
+          <mxGeometry height="40" width="160" x="700" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E1F9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="语义标签 (Label)" vertex="1">
+          <mxGeometry height="40" width="160" x="700" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1F2D9;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="原型表示 (Prototype)" vertex="1">
+          <mxGeometry height="40" width="160" x="700" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_conf_meta" edge="1" parent="1" source="conf_quant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;" target="meta_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="next_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;verticalAlign=top;spacingTop=10;fontSize=16;fontStyle=1;fontFamily=Microsoft YaHei;fontColor=#333333;" value="后续模块高效协同&amp;#xa;(持续服务与复用)" vertex="1">
+          <mxGeometry height="220" width="220" x="960" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pfsa_mod" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="PFSA 模块&amp;#xa;(关键连接筛选)" vertex="1">
+          <mxGeometry height="50" width="160" x="990" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="lmr_mod" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#111111;strokeWidth=1.4;fontSize=15;fontFamily=Microsoft YaHei;" value="LMR 模块&amp;#xa;(多级协同重建)" vertex="1">
+          <mxGeometry height="50" width="160" x="990" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_meta_next" edge="1" parent="1" source="meta_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontFamily=Microsoft YaHei;verticalAlign=bottom;" target="next_box" value="跨模块传递">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
