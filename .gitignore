@@ -1,0 +1,54 @@
+# macOS and editor temporary files
+.DS_Store
+._*
+.AppleDouble/
+*~
+*.swp
+*.swo
+*.tmp
+~$*
+
+# Local TRAE tools (including independently cloned skills) and scratch files
+/.trae_tmp_*/
+/tmp/
+/temp/
+
+# Local Python environments, caches, and packaging outputs
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+/build/
+/dist/
+
+# LaTeX intermediate files; keep .tex, .bib, and final .pdf files
+*.aux
+*.bbl
+*.blg
+*.bcf
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.nav
+*.out
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+*.run.xml
+*.log
+/thesis/build/
+/thesis/_build/
+
+# Model data and training outputs are covered by CAPANet/.gitignore.
+# Manuscripts, reference PDFs, curated tables, and figure sources/exports stay tracked.
