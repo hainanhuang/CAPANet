@@ -7,6 +7,7 @@
 *.swo
 *.tmp
 ~$*
+CAPANet/datasets
 
 # Local TRAE tools (including independently cloned skills) and scratch files
 /.trae_tmp_*/
